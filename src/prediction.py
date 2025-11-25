@@ -172,12 +172,27 @@ class FruitPredictor:
                           'high' if confidence > 0.7 else \
                           'moderate' if confidence > 0.5 else 'low'
         
-        interpretation = (
-            f"This appears to be a {condition} {fruit_type} with "
-            f"{confidence_level} confidence ({confidence:.2%}). "
-        )
+        # Warning for low confidence - likely not a fruit image
+        if confidence < 0.5:
+            interpretation = (
+                f"⚠️ LOW CONFIDENCE WARNING ({confidence:.2%})! "
+                f"This image may NOT be a fruit. The model was trained only on apples, bananas, and oranges. "
+                f"If this is not one of these fruits, the prediction is unreliable. "
+                f"Best guess: {condition} {fruit_type}, but please verify with a proper fruit image."
+            )
+        elif confidence < 0.7:
+            interpretation = (
+                f"⚠️ MODERATE CONFIDENCE ({confidence:.2%}). "
+                f"This might be a {condition} {fruit_type}, but the model is not very certain. "
+                f"Make sure the image contains one of these fruits: apples, bananas, or oranges."
+            )
+        else:
+            interpretation = (
+                f"This appears to be a {condition} {fruit_type} with "
+                f"{confidence_level} confidence ({confidence:.2%}). "
+            )
         
-        if condition == 'rotten':
+        if condition == 'rotten' and confidence >= 0.7:
             interpretation += "The fruit shows signs of spoilage and should not be consumed."
         else:
             interpretation += "The fruit appears fresh and suitable for consumption."

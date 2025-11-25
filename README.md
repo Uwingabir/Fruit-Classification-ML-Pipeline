@@ -1,16 +1,10 @@
-# 🍎 Fruit Classification ML Pipeline
+#  Fruit Classification ML Pipeline
 
-![Python](https://img.shields.io/badge/Python-3.10-blue)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.15-orange)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.104-green)
-![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-
-## 📋 Project Description
+## Project Description
 
 A complete end-to-end Machine Learning pipeline for classifying fresh vs rotten fruits (apples, bananas, oranges) using deep learning. This project demonstrates the full ML lifecycle from data preprocessing to production deployment with monitoring and retraining capabilities.
 
-### 🎯 Key Features
+###  Key Features
 
 - **Image Classification:** 6-class classification (fresh/rotten for 3 fruits)
 - **Multiple Models:** MobileNetV2, ResNet50, EfficientNetB0, Custom CNN

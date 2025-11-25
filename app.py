@@ -48,6 +48,9 @@ RETRAIN_DATA_DIR = BASE_DIR / "data" / "retrain"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 RETRAIN_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
+# Mount static files
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
+
 
 # Pydantic models
 class PredictionResponse(BaseModel):
@@ -85,7 +88,17 @@ async def startup_event():
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    """Root endpoint with API information."""
+    """Serve the main dashboard."""
+    try:
+        with open(BASE_DIR / "static" / "index.html", "r") as f:
+            return HTMLResponse(content=f.read())
+    except FileNotFoundError:
+        return HTMLResponse(content="<h1>UI not found. Please check static/index.html</h1>", status_code=404)
+
+
+@app.get("/api-info", response_class=HTMLResponse)
+async def api_info():
+    """API information endpoint."""
     html_content = """
     <!DOCTYPE html>
     <html>
