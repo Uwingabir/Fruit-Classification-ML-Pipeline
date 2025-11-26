@@ -1,4 +1,11 @@
 #  Fruit Classification ML Pipeline
+ 
+
+ ##  Demo Video:
+  https://youtu.be/43iGbL-GgME
+
+## URL: 
+https://fruit-classification-ml-pipeline-1.onrender.com
 
 ## Project Description
 
@@ -19,16 +26,6 @@ A complete end-to-end Machine Learning pipeline for classifying fresh vs rotten 
 - **Monitoring:** Prometheus metrics and Grafana dashboards
 - **Cloud Ready:** Deployment guides for AWS, Azure, and GCP
 
-
-
-
-##  Live Demo
-
-**URL:** https://fruit-classification-ml-pipeline-1.onrender.com
-
-> **Note:** First load may take 30-60 seconds due to free tier spin-down. Please be patient!
-
----
 
 ## Load Testing Results Summary
 
@@ -85,33 +82,8 @@ ML_Pepiline/
 │
 └── uploads/                      # Temporary upload storage
 
-##  Docker Deployment
+ Docker Deployment
 
-### Single Container
-
-```bash
-# Build the image
-docker build -t fruit-classifier .
-
-# Run the container
-docker run -p 8000:8000 -v $(pwd)/models:/app/models fruit-classifier
-```
-
-### Multi-Container with Load Balancing
-
-```bash
-# Start all services (3 app replicas + nginx + monitoring)
-docker-compose up -d
-
-# Check status
-docker-compose ps
-
-# View logs
-docker-compose logs -f
-
-# Stop all services
-docker-compose down
-```
 
 **Services:**
 - **API (3 replicas):** Ports 8000, 8001, 8002
@@ -177,35 +149,6 @@ locust -f locustfile.py --host=http://localhost:8000
 
 Then open http://localhost:8089
 
-### Run Load Test (Headless)
-
-#### Light Load (10 users, 60 seconds)
-```bash
-locust -f locustfile.py --host=http://localhost:8000 \
-       --users 10 --spawn-rate 2 --run-time 60s --headless
-```
-
-#### Medium Load (100 users, 120 seconds)
-```bash
-locust -f locustfile.py --host=http://localhost:8000 \
-       --users 100 --spawn-rate 10 --run-time 120s --headless
-```
-
-#### Heavy Load (500 users, 180 seconds)
-```bash
-locust -f locustfile.py --host=http://localhost:8000 \
-       --users 500 --spawn-rate 50 --run-time 180s --headless
-```
-
-#### Stress Test (2000 users, 300 seconds)
-```bash
-locust -f locustfile.py --host=http://localhost:8000 \
-       --users 2000 --spawn-rate 200 --run-time 300s \
-       --headless --csv=results --html=report.html
-```
-
----
-
 ##  Load Testing Results
 
 ### Actual Test Results (Single Container)
@@ -253,10 +196,6 @@ locust -f locustfile.py --host=http://localhost:8000 \
    - Consider GPU acceleration for <500ms response times
 
 
-
-*** Full Analysis:** See [LOAD_TEST_RESULTS.md](LOAD_TEST_RESULTS.md) for detailed breakdown
-
-
 ##  Cloud Deployment
 
 ### AWS EC2
@@ -267,49 +206,6 @@ locust -f locustfile.py --host=http://localhost:8000 \
 4. **Configure Security Groups** (ports 80, 8000, 3000, 9090)
 5. **Run with docker-compose**
 
-```bash
-# Full deployment script
-sudo yum update -y
-sudo yum install docker -y
-sudo service docker start
-sudo curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-
-git clone <your-repo>
-cd ML_Pipeline
-sudo docker-compose up -d
-```
-
-### AWS Elastic Beanstalk
-
-1. Install EB CLI: `pip install awsebcli`
-2. Initialize: `eb init`
-3. Create environment: `eb create fruit-classifier-env`
-4. Deploy: `eb deploy`
-
-### Google Cloud Platform (GCP)
-
-```bash
-# Using Cloud Run
-gcloud builds submit --tag gcr.io/[PROJECT-ID]/fruit-classifier
-gcloud run deploy --image gcr.io/[PROJECT-ID]/fruit-classifier --platform managed
-```
-
-### Microsoft Azure
-
-```bash
-# Using Azure Container Instances
-az container create \
-  --resource-group myResourceGroup \
-  --name fruit-classifier \
-  --image your-dockerhub-username/fruit-classifier \
-  --dns-name-label fruit-classifier-demo \
-  --ports 8000
-```
-
----
-
-## 📊 Model Performance
 
 ### Dataset Statistics
 
@@ -460,7 +356,7 @@ docker-compose up -d
 
 
 **Uwingabir**
-- GitHub: [@Uwingabir](https://github.com/Uwingabir)
+
 - Repository: [Fruit-Classification-ML-Pipeline](https://github.com/Uwingabir/Fruit-Classification-ML-Pipeline)
 
 
