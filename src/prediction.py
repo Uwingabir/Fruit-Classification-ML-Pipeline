@@ -111,6 +111,9 @@ class FruitPredictor:
                 for i in range(len(self.class_names))
             }
             
+            # IMPROVED: Check if this is likely a non-fruit image
+            is_likely_fruit, warning_message = self._check_if_fruit(predictions[0], confidence)
+            
             # Interpret the prediction
             interpretation = self._interpret_prediction(predicted_class, confidence)
             
@@ -119,6 +122,8 @@ class FruitPredictor:
                 'confidence': confidence,
                 'probabilities': probabilities,
                 'interpretation': interpretation,
+                'is_likely_fruit': is_likely_fruit,
+                'warning': warning_message,
                 'timestamp': datetime.now().isoformat()
             }
             
@@ -153,6 +158,89 @@ class FruitPredictor:
                 })
         
         return results
+    
+    def _check_if_fruit(self, prediction_probabilities, max_confidence):
+        """
+        Check if the image is likely a fruit based on prediction patterns.
+        
+        IMPORTANT: The model was ONLY trained on apples, bananas, and oranges.
+        It WILL misclassify everything (people, objects, etc.) as one of these fruits.
+        We use confidence patterns to detect this misclassification.
+        
+        Args:
+            prediction_probabilities: Array of probabilities for all classes
+            max_confidence: Maximum confidence score
+            
+        Returns:
+            tuple: (is_likely_fruit: bool, warning_message: str)
+        """
+        # Calculate statistics about the prediction distribution
+        std_dev = np.std(prediction_probabilities)
+        max_prob = max_confidence
+        sorted_probs = sorted(prediction_probabilities, reverse=True)
+        second_max_prob = sorted_probs[1]
+        third_max_prob = sorted_probs[2]
+        prob_difference = max_prob - second_max_prob
+        
+        # Calculate entropy (uncertainty measure)
+        probs_safe = prediction_probabilities + 1e-10
+        entropy = -np.sum(probs_safe * np.log(probs_safe))
+        
+        # Decision criteria for non-fruit detection
+        is_likely_fruit = True
+        warning_message = None
+        
+        # CRITICAL: Even if confidence is high, if it's suspiciously high (>95%)
+        # it might be overfitting to non-fruit patterns
+        if max_confidence > 0.95 and prob_difference > 0.90:
+            is_likely_fruit = False
+            warning_message = (
+                "🚨 SUSPICIOUS OVERCONFIDENCE (>95%) - The model is TOO confident! "
+                "This often happens with NON-FRUIT images (people, objects, screenshots). "
+                "The model was ONLY trained on apples, bananas, and oranges - "
+                "it will incorrectly classify everything else as one of these fruits. "
+                "⚠️ THIS IS LIKELY NOT A FRUIT!"
+            )
+        # Very low confidence (< 30%) - almost certainly not a fruit
+        elif max_confidence < 0.30:
+            is_likely_fruit = False
+            warning_message = (
+                "🚫 VERY LOW CONFIDENCE (<30%) - This is almost certainly NOT a fruit image! "
+                "The model is extremely confused. Please upload an image of an apple, banana, or orange."
+            )
+        # Low confidence (30-50%) - probably not a fruit
+        elif max_confidence < 0.50:
+            is_likely_fruit = False
+            warning_message = (
+                "⚠️ LOW CONFIDENCE (30-50%) - This is probably NOT a fruit image! "
+                "The model cannot recognize this as any fruit. "
+                "Possible reasons: Wrong object type (person, screen, document, etc.), "
+                "or unsupported fruit type."
+            )
+        # Medium-low confidence (50-70%) with small difference from second choice
+        elif max_confidence < 0.70 and prob_difference < 0.20:
+            is_likely_fruit = False
+            warning_message = (
+                "⚠️ UNCERTAIN (50-70%) - The model is confused between multiple classes. "
+                "This might not be a clear fruit image, or the image quality is too poor. "
+                "Try a clearer image of a single fruit."
+            )
+        # High confidence but all classes have similar low probabilities (flat distribution)
+        elif max_confidence < 0.85 and std_dev < 0.15:
+            is_likely_fruit = False
+            warning_message = (
+                "⚠️ FLAT DISTRIBUTION - All classes have similar low probabilities. "
+                "The model doesn't recognize clear fruit patterns. "
+                "This is likely NOT a fruit image."
+            )
+        # Medium confidence (70-85%) - could be fruit but uncertain
+        elif max_confidence < 0.85:
+            warning_message = (
+                "⚡ MODERATE CONFIDENCE (70-85%) - Prediction might be correct but somewhat uncertain. "
+                "For best results, use a clear, well-lit photo showing the fruit clearly."
+            )
+        
+        return is_likely_fruit, warning_message
     
     def _interpret_prediction(self, predicted_class, confidence):
         """

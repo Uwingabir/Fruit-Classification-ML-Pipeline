@@ -88,12 +88,12 @@ async def startup_event():
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    """Serve the main dashboard."""
+    """Serve the new beautiful dashboard."""
     try:
-        with open(BASE_DIR / "static" / "index.html", "r") as f:
+        with open(BASE_DIR / "static" / "new_dashboard.html", "r") as f:
             return HTMLResponse(content=f.read())
     except FileNotFoundError:
-        return HTMLResponse(content="<h1>UI not found. Please check static/index.html</h1>", status_code=404)
+        return HTMLResponse(content="<h1>UI not found. Please check static/new_dashboard.html</h1>", status_code=404)
 
 
 @app.get("/api-info", response_class=HTMLResponse)
