@@ -30,8 +30,8 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy application code
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p models uploads data/retrain static
+# Create necessary directories (but not static - it's already copied)
+RUN mkdir -p models uploads data/retrain
 
 # Expose port
 EXPOSE 8000
