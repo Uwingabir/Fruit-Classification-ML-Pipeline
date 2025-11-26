@@ -19,23 +19,20 @@ A complete end-to-end Machine Learning pipeline for classifying fresh vs rotten 
 - **Monitoring:** Prometheus metrics and Grafana dashboards
 - **Cloud Ready:** Deployment guides for AWS, Azure, and GCP
 
----
 
-## 📺 Video Demo
 
-**YouTube Link:** [Coming Soon - Recording in progress]
 
----
+##  Live Demo
 
-## 🌐 Live Demo
+**URL:** https://fruit-classification-ml-pipeline-1.onrender.com
 
-**URL:** [Deployment in progress - Will be available soon]
+> **Note:** First load may take 30-60 seconds due to free tier spin-down. Please be patient!
 
 ---
 
-## 📊 Load Testing Results Summary
+## Load Testing Results Summary
 
-✅ **All tests passed with 100% success rate!**
+ **All tests passed with 100% success rate!**
 
 | Test Scenario | Users | Total Requests | Success Rate | Median Response Time | Throughput |
 |--------------|-------|----------------|-------------|---------------------|------------|
@@ -43,11 +40,11 @@ A complete end-to-end Machine Learning pipeline for classifying fresh vs rotten 
 | Medium Load | 50 | 372 | 100% | 1,200 ms | 12.69 req/s |
 | High Load | 100 | 364 | 100% | 2,000 ms | 13.15 req/s |
 
-📄 **Detailed Report:** See [LOAD_TEST_RESULTS.md](LOAD_TEST_RESULTS.md) for comprehensive analysis
+**Detailed Report:** See [LOAD_TEST_RESULTS.md](LOAD_TEST_RESULTS.md) for comprehensive analysis
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 ML_Pepiline/
@@ -87,89 +84,8 @@ ML_Pepiline/
 │   └── fruit_classifier.h5       # Trained model file
 │
 └── uploads/                      # Temporary upload storage
-```
 
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.10+
-- Docker & Docker Compose (for containerized deployment)
-- CUDA-capable GPU (optional, for faster training)
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Uwingabir/Fruit-Classification-ML-Pipeline.git
-cd Fruit-Classification-ML-Pipeline
-```
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Organize Your Dataset
-
-Place your images in the following structure:
-
-```
-archive (2)/dataset/
-├── train/
-│   ├── freshapples/
-│   ├── freshbanana/
-│   ├── freshoranges/
-│   ├── rottenapples/
-│   ├── rottenbanana/
-│   └── rottenoranges/
-└── test/
-    └── [same structure]
-```
-
-### 4. Train the Model
-
-Open and run the Jupyter notebook:
-
-```bash
-jupyter notebook notebook/fruit_classification.ipynb
-```
-
-The notebook includes:
-- ✅ Exploratory Data Analysis (EDA)
-- ✅ Data preprocessing and augmentation
-- ✅ Model training with multiple architectures
-- ✅ Comprehensive evaluation metrics
-- ✅ Model comparison and selection
-- ✅ Visualization of results
-
-### 5. Run the API Server
-
-```bash
-python app.py
-```
-
-The API will be available at `http://localhost:8000`
-
-### 6. Access the Web UI
-
-Open your browser and navigate to:
-```
-http://localhost:8000
-```
-
-This will load the interactive dashboard with:
-- 📊 Real-time model statistics (uptime, predictions, status)
-- 🖼️ Image upload and prediction interface  
-- 📁 Bulk data upload for retraining
-- 🔄 One-click model retraining
-- 📈 Data visualization charts (class distribution, performance metrics)
-
----
-
-## 🐳 Docker Deployment
+##  Docker Deployment
 
 ### Single Container
 
@@ -205,7 +121,7 @@ docker-compose down
 
 ---
 
-## 📊 API Endpoints
+##  API Endpoints
 
 ### Health & Status
 
@@ -251,7 +167,7 @@ Visit `http://localhost:8000/docs` for full API documentation.
 
 ---
 
-## 🧪 Load Testing with Locust
+##  Load Testing with Locust
 
 ### Run Load Test (Web UI)
 
@@ -290,7 +206,7 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 ---
 
-## 📈 Load Testing Results
+##  Load Testing Results
 
 ### Actual Test Results (Single Container)
 
@@ -300,7 +216,7 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 #### Test 1: Low Load (10 Users)
 - **Total Requests:** 128
-- **Success Rate:** 100% ✅
+- **Success Rate:** 100% 
 - **Median Response Time:** 110 ms
 - **95th Percentile:** 452 ms
 - **Throughput:** 4.35 req/s
@@ -311,7 +227,7 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 #### Test 2: Medium Load (50 Users)
 - **Total Requests:** 372
-- **Success Rate:** 100% ✅
+- **Success Rate:** 100% 
 - **Median Response Time:** 1,200 ms
 - **95th Percentile:** 2,704 ms
 - **Throughput:** 12.69 req/s
@@ -319,7 +235,7 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 #### Test 3: High Load (100 Users)
 - **Total Requests:** 364
-- **Success Rate:** 100% ✅
+- **Success Rate:** 100% 
 - **Median Response Time:** 2,000 ms
 - **95th Percentile:** 3,585 ms
 - **Throughput:** 13.15 req/s
@@ -327,26 +243,21 @@ locust -f locustfile.py --host=http://localhost:8000 \
 
 ### Key Findings
 
-1. ✅ **100% Success Rate** - Zero failures across all 864 total requests
-2. ✅ **Production Ready** - Handles 50-100 concurrent users with acceptable latency
-3. ✅ **Predictable Scaling** - Response time increases linearly with load
-4. ✅ **Reliable Performance** - No crashes or errors under stress
-5. 🚀 **Scaling Recommendations:**
+1. **100% Success Rate** - Zero failures across all 864 total requests
+2. **Production Ready** - Handles 50-100 concurrent users with acceptable latency
+3. **Predictable Scaling** - Response time increases linearly with load
+4.  **Reliable Performance** - No crashes or errors under stress
+5.  **Scaling Recommendations:**
    - For 100+ users: Deploy 2-3 containers with load balancing
    - Expected 3x throughput with 3 containers (~40 req/s)
    - Consider GPU acceleration for <500ms response times
 
-### HTML Reports Generated
 
-- 📊 `results_10users.html` - Interactive charts and metrics
-- 📊 `results_50users.html` - Interactive charts and metrics  
-- 📊 `results_100users.html` - Interactive charts and metrics
 
-**📄 Full Analysis:** See [LOAD_TEST_RESULTS.md](LOAD_TEST_RESULTS.md) for detailed breakdown
+*** Full Analysis:** See [LOAD_TEST_RESULTS.md](LOAD_TEST_RESULTS.md) for detailed breakdown
 
----
 
-## ☁️ Cloud Deployment
+##  Cloud Deployment
 
 ### AWS EC2
 
@@ -440,7 +351,7 @@ RO          0    0    2    1    3  397
 
 ---
 
-## 🎨 Feature Interpretations & Data Story
+## Feature Interpretations & Data Story
 
 The notebook includes **3 comprehensive feature interpretations** with storytelling:
 
@@ -475,7 +386,7 @@ The notebook includes **3 comprehensive feature interpretations** with storytell
 
 ---
 
-## 🔄 Retraining Process
+##  Retraining Process
 
 ### Manual Retraining
 
@@ -484,30 +395,9 @@ The notebook includes **3 comprehensive feature interpretations** with storytell
 3. **Monitor progress** in real-time (shows training status)
 4. **Model automatically reloads** after completion
 
-### Programmatic Retraining
 
-```python
-from src.model import FruitClassifier
-from src.preprocessing import ImagePreprocessor
 
-# Initialize
-preprocessor = ImagePreprocessor()
-classifier = FruitClassifier(model_type='mobilenet')
-
-# Create data generators with new data
-train_gen, val_gen, test_gen = preprocessor.create_data_generators(
-    'data/retrain', 'data/test'
-)
-
-# Retrain
-classifier.retrain(
-    train_gen, val_gen,
-    epochs=10,
-    model_path='models/fruit_classifier.h5'
-)
-```
-
-### Automated Retraining Triggers
+### Retraining Triggers
 
 - Data drift detection (accuracy drop > 5%)
 - New data accumulation (>1000 new images)
@@ -516,7 +406,7 @@ classifier.retrain(
 
 ---
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Issue: Model not loading
 
@@ -557,9 +447,7 @@ docker-compose up -d
 - Enable TensorFlow optimizations
 - Use model quantization
 
----
-
-## 📚 Technical Stack
+##  Technical Stack
 
 - **Framework:** TensorFlow 2.15, Keras
 - **API:** FastAPI 0.104
@@ -570,47 +458,15 @@ docker-compose up -d
 - **Load Testing:** Locust
 - **Cloud:** AWS/GCP/Azure compatible
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-## 👨‍💻 Author
 
 **Uwingabir**
 - GitHub: [@Uwingabir](https://github.com/Uwingabir)
 - Repository: [Fruit-Classification-ML-Pipeline](https://github.com/Uwingabir/Fruit-Classification-ML-Pipeline)
 
----
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Dataset source: [Kaggle Fruits Dataset](https://www.kaggle.com/)
 - TensorFlow team for excellent documentation
 - FastAPI for the amazing framework
-- Open source community
 
----
-
-## 📞 Support
-
-For support, email your.email@example.com or create an issue in the GitHub repository.
-
----
-
-**⭐ If you find this project helpful, please give it a star!**
